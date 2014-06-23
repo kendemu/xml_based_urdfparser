@@ -209,10 +209,10 @@ ur.Pose((Nao_offsets['CameraBottomOffsetX'],0,Nao_offsets['CameraBottomOffsetZ']
         robot.add_joint(ur.Joint('r_sole_joint','r_ankle','r_sole','fixed', \
         None,ur.Pose((0,0,-Nao_offsets['FootHeight_' + version]),(0,0,0))))
         robot.add_joint(ur.Joint('LHand','l_wrist','l_gripper',\
-        'revolute',None,ur.Pose((Nao_offsets['HandOffsetX_' + version],0, \
+        'fixed',None,ur.Pose((Nao_offsets['HandOffsetX_' + version],0, \
         -Nao_offsets['HandOffsetZ_' + version]),(0,0,0))))
         robot.add_joint(ur.Joint('RHand','r_wrist','r_gripper', \
-        'revolute',None,ur.Pose((Nao_offsets['HandOffsetX_' + version],0, \
+        'fixed',None,ur.Pose((Nao_offsets['HandOffsetX_' + version],0, \
         -Nao_offsets['HandOffsetZ_' + version]),(0,0,0))))
         robot.add_joint(ur.Joint('gaze_joint', 'CameraTop_frame',
 'gaze', 'fixed', None, ur.Pose((0,0,0),(0,0,0))))
@@ -303,6 +303,7 @@ def exportXacroRobot(robot):
     root = doc.createElement("robot")
     doc.appendChild(root)
     root.setAttribute("xmlns:xacro","http://www.ros.org/wiki/xacro")
+    root.setAttribute("name",robot.name)
     for i in dictioNaoXacro.keys():
         print i
         print "exporting " +str(dictioNaoXacro[i]) + ' xacro' 

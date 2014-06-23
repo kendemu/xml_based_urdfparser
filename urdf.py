@@ -9,10 +9,34 @@ import sys
 from numpy import array,pi
 import re, copy
 
+HUBO_JOINT_SUFFIX_MASK=r'([HKASEWF][RPY12345])'
+
+def reindent(s, numSpaces):
+    """Reindent a string for tree structure pretty printing."""
+    s = string.split(s, '\n')
+    s = [(numSpaces * ' ') + line for line in s]
+    s = string.join(s, '\n')
+    return s
+
 def add(doc, base, element):
     """Add an XML element for URDF export"""
     if element is not None:
         base.appendChild( element.to_xml(doc) )
+
+def add_openrave(doc, base, element):
+    """Add an XML element for OpenRAVE XML export"""
+    if element is not None:
+        #TODO: copy this iterable test elsewhere
+        newelements=element.to_openrave_xml(doc)
+        if hasattr(newelements, '__iter__'):
+            for e in newelements:
+                base.appendChild(e)
+        else:
+            base.appendChild(newelements)
+
+def pfloat(x):
+    """Print float value as string"""
+    return "{0}".format(x).rstrip('.')
 
 def to_string(data=None):
     """Convert data fromvarious types to urdf string format"""
@@ -22,11 +46,16 @@ def to_string(data=None):
         outlist=[]
         for a in data:
             try:
-                outlist.append("0")
+                if abs(a)>URDF.ZERO_THRESHOLD:
+                    outlist.append(pfloat(a))
+                else:
+                    outlist.append("0")
             except TypeError:
                 outlist.append(pfloat(a))
         return ' '.join(outlist)
 
+    elif type(data) == type(0.0):
+        return pfloat(data if abs(data)>URDF.ZERO_THRESHOLD else 0)
     elif type(data) != type(''):
         return str(data)
     return data
@@ -92,6 +121,12 @@ class Collision(object):
         add(doc, xml, self.origin)
         return xml
 
+    def to_openrave_xml(self, doc):
+
+        xml = self.geometry.to_openrave_xml(doc)
+        add_openrave(doc,xml, self.origin)
+        return xml
+
     def __str__(self):
         s =  "Origin:\n{0}\n".format(reindent(str(self.origin), 1))
         s += "Geometry:\n{0}\n".format(reindent(str(self.geometry), 1))
@@ -111,6 +146,9 @@ class Color(object):
         xml = doc.createElement("color")
         set_attribute(xml, "rgba", self.rgba)
         return xml
+
+    def to_openrave_xml(self,doc):
+        return None
 
     def __str__(self):
         return "r: {0}, g: {1}, b: {2}, a: {3},".format(
@@ -135,6 +173,9 @@ class Dynamics(object):
         set_attribute(xml, 'damping', self.damping)
         set_attribute(xml, 'friction', self.friction)
         return xml
+
+    def to_openrave_xml(self,doc):
+        return None
 
     def __str__(self):
         return "Damping: {0}\nFriction: {1}\n".format(self.damping,
@@ -181,6 +222,11 @@ class Box(Geometry):
         geom.appendChild(xml)
         return geom
 
+    def to_openrave_xml(self, doc):
+        xml = short(doc, "geometry","type","box")
+        xml.appendChild(create_element(xml, "extents", self.dims))
+        return xml
+
     def __str__(self):
         return "Dimension: {0}".format(self.dims)
 
@@ -204,6 +250,12 @@ class Cylinder(Geometry):
         geom.appendChild(xml)
         return geom
 
+    def to_openrave_xml(self, doc):
+        xml = short(doc, "geometry","type","cylinder")
+        xml.appendChild(create_element(doc, "height", self.length))
+        xml.appendChild(create_element(doc, "radius", self.radius))
+        return xml
+
     def __str__(self):
         return "Radius: {0}\nLength: {1}".format(self.radius,
                                                  self.length)
@@ -223,6 +275,11 @@ class Sphere(Geometry):
         geom = doc.createElement('geometry')
         geom.appendChild(xml)
         return geom
+
+    def to_openrave_xml(self, doc):
+        xml = short(doc, "geometry","type","sphere")
+        xml.create_child(xml, "radius", self.radius)
+        return xml
 
     def __str__(self):
         return "Radius: {0}".format(self.radius)
@@ -252,6 +309,15 @@ class Mesh(Geometry):
         geom = doc.createElement('geometry')
         geom.appendChild(xml)
         return geom
+
+    def to_openrave_xml(self, doc):
+        xml = short(doc, "geometry","type","trimesh")
+        f='../meshes/'+self.filename.split('/')[-1]
+        fhull=re.sub(r"Body","convhull",f)
+        #xml.appendChild(create_element(doc, "render", [f, self.scale]))
+        xml.appendChild(create_element(doc, "data", [fhull, self.scale]))
+        #set_attribute(xml, "render","true")
+        return xml
 
     def __str__(self):
         return "Filename: {0}\nScale: {1}".format(self.filename, self.scale)
@@ -295,6 +361,16 @@ class Inertial(object):
         xml.appendChild(inertia)
 
         add(doc, xml, self.origin)
+        return xml
+
+    def to_openrave_xml(self, doc):
+        xml = doc.createElement("mass")
+        set_attribute(xml,"type","custom")
+        xml.appendChild(create_element(doc, "total", self.mass))
+        text='{ixx} {ixy} {ixz}\n{ixy} {iyy} {iyz}\n{ixz} {iyz} {izz}'.format(**self.matrix)
+        xml.appendChild(create_element(doc,"inertia",text))
+        add_openrave(doc, xml, self.origin)
+        xml.getElementsByTagName('translation')[0].tagName="com"
         return xml
 
     def __str__(self):
@@ -377,6 +453,46 @@ class Joint(object):
         add(doc, xml, self.calibration)
         return xml
 
+    def to_openrave_xml(self, doc):
+        xml = doc.createElement("joint")
+        set_attribute(xml, "name", self.name)
+        s=""
+        if self.joint_type == Joint.UNKNOWN:
+            s = "unknown"
+        elif self.joint_type == Joint.REVOLUTE:
+            s = "hinge"
+        elif self.joint_type == Joint.CONTINUOUS:
+            s = "hinge"
+            set_attribute(xml, "circular", "true")
+
+        elif self.joint_type == Joint.PRISMATIC:
+            s = "slider"
+        elif self.joint_type == Joint.FIXED:
+            s = "hinge"
+            set_attribute(xml, "enable", "false")
+            xml.appendChild( create_element(doc, "limits", "0 0") )
+
+        set_attribute(xml, "type", s)
+        if self.mimic is not None:
+            multiplier=self.mimic.multiplier if self.mimic.multiplier is not None else 1.0
+            offset=self.mimic.offset if self.mimic.offset is not None else 0.0
+            #1) Follow openrave mimic joint format, disable joint:
+            set_attribute(xml,"enable","false")
+            #2) Create the position equation
+            set_attribute(xml,"mimic_pos","{0} * {1} + {2}".format(self.mimic.joint_name,multiplier,offset))
+            set_attribute(xml,"mimic_vel","|{0} {1}".format(self.mimic.joint_name,multiplier))
+
+        xml.appendChild( create_element(doc, "body", self.parent) )
+        xml.appendChild( create_element(doc, "body" , self.child ) )
+        xml.appendChild( create_element(doc, "offsetfrom" , self.parent) )
+        add_openrave(doc, xml, self.origin)
+        xml.getElementsByTagName('translation')[0].tagName="anchor"
+        if self.axis is not None:
+            xml.appendChild( create_element(doc, "axis", self.axis) )
+        add_openrave(doc, xml, self.limits)
+        return xml
+
+
     def __str__(self):
         s = "Name: {0}\n".format(self.name)
 
@@ -436,6 +552,10 @@ class JointCalibration(object):
         set_attribute(xml, 'falling', self.falling)
         return xml
 
+    def to_openrave_xml(self,doc):
+        #No implementation
+        return None
+
     def __str__(self):
         s = "Raising: {0}\n".format(self.rising)
         s += "Falling: {0}\n".format(self.falling)
@@ -474,6 +594,12 @@ class JointLimit(object):
         set_attribute(xml, 'lower', self.lower)
         set_attribute(xml, 'upper', self.upper)
         return xml
+
+    def to_openrave_xml(self,doc):
+        limit = create_element(doc,'limitsdeg',[round(self.lower*180/pi,1),round(self.upper*180/pi,1)])
+        maxvel = create_element(doc,'maxvel',self.velocity)
+        maxtrq = create_element(doc,'maxtorque',self.effort)
+        return [limit,maxvel,maxtrq]
 
     def __str__(self):
         s = "Effort: {0}\n".format(self.effort)
@@ -533,6 +659,13 @@ class Link(object):
         add( doc, xml, self.visual)
         add( doc, xml, self.collision)
         add( doc, xml, self.inertial)
+        return xml
+
+    def to_openrave_xml(self, doc):
+        xml = doc.createElement("body")
+        xml.setAttribute("name", self.name)
+        add_openrave( doc, xml, self.collision)
+        add_openrave( doc, xml, self.inertial)
         return xml
 
     def __str__(self):
@@ -605,6 +738,25 @@ class Pose(object):
         set_attribute(xml, 'xyz', self.position)
         set_attribute(xml, 'rpy', self.rotation)
         return xml
+
+    def to_openrave_xml(self, doc):
+        xml = doc.createElement("translation")
+        set_content(doc,xml,self.position)
+        elements=[xml]
+        if not self.rotation[0] == 0:
+            rotr = doc.createElement("rotationaxis")
+            set_content(doc,rotr,[1,0,0,self.rotation[0]*180.0/pi])
+            elements.append(rotr)
+        if not self.rotation[1] == 0:
+            rotp = doc.createElement("rotationaxis")
+            set_content(doc,rotp,[0,1,0,self.rotation[1]*180.0/pi])
+            elements.append(rotp)
+        if not self.rotation[2] == 0:
+            roty = doc.createElement("rotationaxis")
+            set_content(doc,roty,[0,0,1,self.rotation[2]*180.0/pi])
+            elements.append(roty)
+
+        return elements
 
     def __str__(self):
         return "Position: {0}\nRotation: {1}".format(self.position,
@@ -682,6 +834,7 @@ class Visual(object):
         return s
 
 class URDF(object):
+    ZERO_THRESHOLD=0.000000001
     def __init__(self, name=""):
         self.name = name
         self.elements = []
@@ -799,12 +952,85 @@ class URDF(object):
 
         self.write_reformatted(self.to_xml(),outfile)
 
+    def make_openrave_kinbody(self,doc):
+        kinbody = doc.createElement("kinbody")
+        doc.appendChild(kinbody)
+        kinbody.setAttribute("name", self.name)
+
+        for element in self.elements:
+            kinbody.appendChild(element.to_openrave_xml(doc))
+
+        #Post-processing to add offsetfrom statements
+
+        for j in self.joints.keys():
+            for l in kinbody.getElementsByTagName('body'):
+                if l.getAttribute('name')== self.joints[j].child:
+                    #Add offsetfrom declarration and joint anchor as transform
+                    l.appendChild( create_element(doc, "offsetfrom" , self.joints[j].parent) )
+                    add_openrave(doc,l,self.joints[j].origin)
+                    break
+
+        #Add adjacencies
+        for j in self.joints.values():
+            kinbody.appendChild(create_element(doc,"adjacent",[j.parent, j.child]))
+
+        #Add known extra adjacencies
+        badjoints={'LAR':'LKP','LWR':'LWY','LSY':'LSP','LHY':'LHP',
+                   'RAR':'RKP','RWR':'RWY','RSY':'RSP','RHY':'RHP',
+                   'NK1':'Torso'}
+        for k,v in badjoints.items():
+            #TODO: search all bodies for above pairs and add extra adjacency tags
+            b1=None
+            b2=None
+            for b in kinbody.getElementsByTagName('body'):
+                if re.search(k,b.getAttribute('name')):
+                    b1=b.getAttribute('name')
+                if re.search(v,b.getAttribute('name')):
+                    b2=b.getAttribute('name')
+            if b1 and b2:
+                kinbody.appendChild(create_element(doc,"adjacent",[b1, b2]))
+
+        return kinbody
+
+    def to_openrave_xml(self):
+        doc = Document()
+        root = doc.createElement("robot")
+        doc.appendChild(root)
+        root.setAttribute("name", self.name)
+        root.appendChild(self.make_openrave_kinbody(doc))
+
+        return doc.toprettyxml()
+
     def write_reformatted(self,data,name):
         if name is None:
             name=self.name
         outdata=re.sub(r'\t','    ',data)
         with open(name,'w') as f:
             f.write(outdata)
+
+    def write_openrave_files(self,outname=None,writerobot=False):
+        if outname is None:
+            outname=self.name
+
+        kinfile=outname+'.kinbody.xml'
+
+        if writerobot:
+            robotfile=outname+'.robot.xml'
+            doc = Document()
+            root = doc.createElement("robot")
+            doc.appendChild(root)
+            root.setAttribute("name", outname)
+            kinbody = doc.createElement("kinbody")
+            root.appendChild(kinbody)
+            kinbody.setAttribute("name", outname)
+            kinbody.setAttribute("file", kinfile)
+            self.write_reformatted(doc.toprettyxml(),robotfile)
+
+        doc2 = Document()
+        doc2.appendChild(self.make_openrave_kinbody(doc2))
+
+        self.write_reformatted(doc2.toprettyxml(),kinfile)
+
 
     def __str__(self):
         s = "Name: {0}\n".format(self.name)
@@ -1025,6 +1251,15 @@ class URDF(object):
                     j.limits=JointLimit(effort,vel,lower,upper)
                     j.joint_type=Joint.REVOLUTE
 
+    #def rot_from_rpy(r,p,y):
+        #return array([
+    #def get_link_origin(self,base,link):
+        #jointchain=self.get_chain(base,link,links=False,joints=True)
+
+        #rpy=[self.joints[n].origin.rotation for n in jointchain]
+        #xyz=[self.joints[n].origin.position for n in jointchain]
+
+
 if __name__ == '__main__':
     #try:
         #from openhubo import startup
@@ -1043,5 +1278,5 @@ if __name__ == '__main__':
 
     model=URDF.load_xml_file(filename)
 
-    model.write_xml(outname)
+    model.write_openrave_files(outname)
 
