@@ -833,11 +833,215 @@ class Visual(object):
         s += reindent(str(self.material), 1) + "\n"
         return s
 
+
+class Actuator(object):
+    def __init__(self,name=None,hardwareInterface=None,mechanicalReduction=1):
+        self.name = name
+        self.hardwareInterface = hardwareInterface
+        self.mechanicalReduction = mechanicalReduction 
+
+    @staticmethod
+    def parse(node, verbose=True):
+        actuator = Actuator()
+        if node.hasAttribute('name'):
+            actuator.name = node.getAttribute('name')
+        for child in children(node):
+            if child.localName == 'hardwareInterface':
+                actuator.hardwareInterface = str(child.childNodes[0].nodeValue)
+        if child.localName == 'mechanicalReduction':
+                actuator.mechanicalReduction = str(child.childNodes[0].nodeValue)
+        #    actuator.hardwareInterface = str(node.getAttribute('hardwareInterface'))
+        #if node.hasAttribute('mechanicalReduction'):
+        #    actuator.mechanicalReduction = float(node.getAttribute('mechanicalReduction'))
+
+        return actuator
+    
+    def to_xml(self, doc):
+        xml = doc.createElement('actuator')
+        set_attribute(xml, 'name', self.name)
+        xml.appendChild(create_element(doc, 'hardwareInterface', self.hardwareInterface))
+        xml.appendChild(create_element(doc,"mechanicalReduction",str(self.mechanicalReduction)))
+        return xml
+
+    def __str__(self):
+        s = "Name: {0}\n".format(self.name)
+        s += "HardwareInterface : {0}\n".format(self.hardwareInterface)
+        s += "Mechanical Reduction: {0}\n".format(self.mechanicalReduction)
+        return s
+
+
+class Transmission(object):
+    def __init__(self,name=None,type=None,joint=None,actuator=None):
+        self.name = name
+        self.joint = joint
+        self.actuator = actuator 
+        self.type = type
+    @staticmethod
+    def parse(node, verbose=True):
+        trans = Transmission()
+        if node.hasAttribute('name'):
+            trans.name = node.getAttribute('name')
+        #if node.hasAttribute('type'):
+        #    trans.type = node.getAttribute('type')
+        for child in children(node):
+            if child.localName == 'joint':
+                trans.joint = (child.getAttribute('name'))
+            if child.localName == 'actuator':
+                trans.actuator = Actuator.parse(child,verbose)
+            if child.localName == 'type':
+                trans.type = str(child.childNodes[0].nodeValue)#str(child.getAttribute('type'))
+        return trans
+    
+    def to_xml(self, doc):
+        xml = doc.createElement('transmission')
+        set_attribute(xml, 'name', self.name)
+        #set_attribute(xml, 'type', self.type)
+        xml.appendChild( short(doc, "joint", "name", self.joint) )
+        xml.appendChild(create_element(doc, 'type', self.type))
+        #set_attribute(xml, 'joint', self.joint)
+        #add(doc, xml, self.joint)
+        add(doc, xml, self.actuator)
+        
+        return xml
+
+    def __str__(self):
+        s = "Name: {0}\n".format(self.name)
+        s += "Type: {0}\n".format(self.type)
+        s += "Joint: {0}\n".format(self.joint)
+        s += "Actuator:\n"
+        s += reindent(str(self.actuator), 1) + "\n"
+        
+        return s
+
+class Gazebo(object):
+    def __init__(self,reference=None,material=None,gravity=None,dampingFactor=None,maxVel=None,minDepth=None,mu1=None,mu2=None,fdir1=None,kp=None,kd=None,selfCollide=None,maxContacts=None,laserRetro=None,plugin=None):
+        self.reference = reference
+        self.material = material
+        self.gravity = gravity
+        self.dampingFactor = dampingFactor 
+        self.maxVel = maxVel
+        self.minDepth = minDepth
+        self.mu1 = mu1
+        self.mu2 = mu2
+        self.fdir1 = fdir1
+        self.kp = kp
+        self.kd = kd
+        self.selfCollide = selfCollide
+        self.maxContacts = maxContacts
+        self.laserRetro = laserRetro
+        self.plugin = plugin
+
+    @staticmethod
+    def parse(node, verbose=True):
+        gaze = Gazebo()
+        if node.hasAttribute('reference'):
+            gaze.reference = node.getAttribute('reference')
+        for child in children(node):
+            if child.localName == 'material':
+                gaze.material = str(child.childNodes[0].nodeValue)
+            elif child.localName == 'turnGravityOff':
+                gaze.gravity = str(child.childNodes[0].nodeValue)
+            elif child.localName == 'dampingFactor':
+                gaze.dampingFactor = str(child.childNodes[0].nodeValue)
+            elif child.localName == 'maxVel':
+                gaze.maxVel = str(child.childNodes[0].nodeValue)
+            elif child.localName == 'minDepth':
+                gaze.minDepth = str(child.childNodes[0].nodeValue)
+            elif child.localName == 'mu1':
+                gaze.mu1 = str(child.childNodes[0].nodeValue)
+            elif child.localName == 'mu2':
+                gaze.mu2 = str(child.childNodes[0].nodeValue)
+            elif child.localName == 'fdir1':
+                gaze.fdir1 = str(child.childNodes[0].nodeValue)
+            elif child.localName == 'kp':
+                gaze.kp = str(child.childNodes[0].nodeValue)
+            elif child.localName == 'kd':
+                gaze.kd = str(child.childNodes[0].nodeValue)
+            elif child.localName == 'selfCollide':
+                gaze.selfCollide = str(child.childNodes[0].nodeValue)
+            elif child.localName == 'maxContacts':
+                gaze.maxContacts = str(child.childNodes[0].nodeValue)
+            elif child.localName == 'laserRetro':
+                gaze.laserRetro = str(child.childNodes[0].nodeValue)
+         #   elif child.localName == 'plugin':
+         #       gaze.plugin = Plugin.parse(child,verbose)
+        return gaze
+    
+    def to_xml(self, doc):
+        xml = doc.createElement('gazebo')
+        set_attribute(xml, 'reference', self.reference)
+        if(self.material != None):
+            xml.appendChild(create_element(doc, 'material', self.material))
+        if(self.gravity != None):
+            xml.appendChild(create_element(doc, 'turnGravityOff', self.gravity))
+        if(self.dampingFactor != None):
+            xml.appendChild(create_element(doc, 'dampingFactor', self.dampingFactor))
+        if(self.maxVel != None):
+            xml.appendChild(create_element(doc, 'maxVel', self.maxVel))
+        if(self.minDepth != None):
+            xml.appendChild(create_element(doc, 'minDepth', self.minDepth))
+        if(self.mu1 != None):
+            xml.appendChild(create_element(doc, 'mu1', self.mu1))
+        if(self.mu2 != None):
+            xml.appendChild(create_element(doc, 'mu2', self.mu2))
+        if(self.fdir1 != None):
+            xml.appendChild(create_element(doc, 'fdir1', self.fdir1))
+        if(self.kp != None):
+            xml.appendChild(create_element(doc, 'kp', self.kp))
+        if(self.kd != None):
+            xml.appendChild(create_element(doc, 'kd', self.kd))
+        if(self.selfCollide != None):
+            xml.appendChild(create_element(doc, 'selfCollide', self.selfCollide))
+        if(self.maxContacts != None):
+            xml.appendChild(create_element(doc, 'maxContacts', self.maxContacts))
+        if(self.laserRetro != None):
+            xml.appendChild(create_element(doc, 'laserRetro', self.laserRetro))
+        #if(self.plugin != None):
+        #    add( doc, xml, self.plugin)
+
+        return xml
+
+    def __str__(self):
+        s += "Reference: {0}\n".format(self.reference)
+        s = "Material:\n"
+        s += reindent(str(self.material),1)
+        s = "Gravity:\n"
+        s += reindent(str(self.gravity),1)
+        s = "DampinFactor:\n"
+        s += reindent(str(self.dampingFactor),1)
+        s = "MaxVel:\n"
+        s += reindent(str(self.maxVel),1)
+        s = "MinDepth:\n"
+        s += reindent(str(self.minDepth),1)
+        s = "Mu1:\n"
+        s += reindent(str(self.mu1),1)
+        s = "Mu2:\n"
+        s += reindent(str(self.mu2),1)
+        s = "Fdir1:\n"
+        s += reindent(str(self.fdir1),1)
+        s = "Kp:\n"
+        s += reindent(str(self.kp),1)
+        s = "Kd:\n"
+        s += reindent(str(self.kd),1)
+        s = "SelfCollide:\n"
+        s += reindent(str(self.selfCollide),1)
+        s = "MaxContacts:\n"
+        s += reindent(str(self.maxContacts),1)
+        s = "LaserRetro:\n"
+        s += reindent(str(self.laserRetro),1)
+        #s = "Plugin:\n"
+        #s += reindent(str(self.plugin),1)
+
+        return s
+
+    
+
 class URDF(object):
     ZERO_THRESHOLD=0.000000001
     def __init__(self, name=""):
         self.name = name
         self.elements = []
+        self.gazebos = {}
         self.links = {}
         self.joints = {}
         self.materials = {}
@@ -860,11 +1064,15 @@ class URDF(object):
             elif node.localName == 'link':
                 urdf.add_link( Link.parse(node, verbose) )
             elif node.localName == 'material':
-                urdf.elements.append( Material.parse(node, verbose) )
+                #urdf.elements.append( Material.parse(node, verbose) )
+                urdf.add_material(Material.parse(node,verbose))
             elif node.localName == 'gazebo':
-                None #Gazebo not implemented yet
+                urdf.add_gazebo(Gazebo.parse(node,verbose))
+#                urdf.gazebos.append( Gazebo.parse(node, verbose) )
+                #None #Gazebo not implemented yet
             elif node.localName == 'transmission':
-                None #transmission not implemented yet
+                urdf.elements.append( Transmission.parse(node,verbose) )
+                #None #transmission not implemented yet
             else:
                 if verbose:
                     print("Unknown robot element '%s'"%node.localName)
@@ -901,6 +1109,13 @@ class URDF(object):
         else:
             self.child_map[joint.parent] = [ (joint.name, joint.child) ]
 
+    def add_material(self, material):
+        self.elements.append(material)
+        self.materials[material.name] = material
+  
+    def add_gazebo(self, gazebo):
+        self.elements.append(gazebo)
+        self.gazebos[gazebo.reference] = gazebo
 
     def get_chain(self, root, tip, joints=True, links=True, fixed=True):
         """Based on given link names root and tip, return either a joint or link chain as a list of names."""

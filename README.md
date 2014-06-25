@@ -18,11 +18,19 @@ argparse
 subprocess
 the library provided in this package
 
+Changes
+=======
+
+- add transmission and gazebo tags to the parser library
+- add methods to library : add_material, add_gazebo
+- export xacro files using kinematics chains
+- fix scale of meshes in the output files
+
 TODO
 ======
-
+- find a way to simulate nao in Gazebo (for now it is falling through the ground)
 - get finger Frames and SensorFrames from aldebaran documentation
-- add transmission and gazebo tags to the parser library
 - fix joints:
     - get L/RHand from documentation : limits
     - mimic joints for pelvis and fingers
+- add sensor plugins for gazebo tags
