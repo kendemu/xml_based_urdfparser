@@ -9,19 +9,18 @@
 	<link name="torso">
 		<visual>
 			<geometry>
-				<mesh filename="file:///home/marguedas/.ros/nao_meshes/meshes/V40/visual/torso.obj" scale="0 0 0"/>
+				<mesh filename="file:///home/marguedas/.ros/nao_meshes/meshes/V40/visual/collada/torso.dae" scale="0.1 0.1 0.1"/>
 			</geometry>
-			<origin rpy="0 0 0" xyz="0 0 0"/>
 		</visual>
 		<collision>
 			<geometry>
-				<mesh filename="file:///home/marguedas/.ros/nao_meshes/meshes/V40/collision/torso.ply" scale="0 0 0"/>
+				<mesh filename="file:///home/marguedas/.ros/nao_meshes/meshes/V40/visual/collada/torso.dae" scale="0.1 0.1 0.1"/>
 			</geometry>
 		</collision>
 		<inertial>
 			<mass value="1.04956"/>
 			<inertia ixx="0.00506234" ixy="1.43116e-05" ixz="0.000155191" iyy="0.00488014" iyz="-2.70793e-05" izz="0.0016103"/>
-			<origin rpy="0 0 0" xyz="0 0 0"/>
+			<origin rpy="0 0 0" xyz="-0.00413 0 0.04342"/>
 		</inertial>
 	</link>
 </robot>

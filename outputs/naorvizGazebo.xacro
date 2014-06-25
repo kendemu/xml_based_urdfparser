@@ -1,0 +1,220 @@
+<?xml version="1.0" ?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+	<gazebo reference="LThigh">
+		<material>Gazebo/Red</material>
+		<turnGravityOff>false</turnGravityOff>
+		<mu1>0.5</mu1>
+		<mu2>0.5</mu2>
+		<selfCollide>false</selfCollide>
+	</gazebo>
+	<gazebo reference="l_wrist">
+		<material>Gazebo/Red</material>
+		<turnGravityOff>false</turnGravityOff>
+		<mu1>0.5</mu1>
+		<mu2>0.5</mu2>
+		<selfCollide>false</selfCollide>
+	</gazebo>
+	<gazebo reference="RBicep">
+		<material>Gazebo/Blue</material>
+		<turnGravityOff>false</turnGravityOff>
+		<mu1>0.5</mu1>
+		<mu2>0.5</mu2>
+		<selfCollide>false</selfCollide>
+	</gazebo>
+	<gazebo reference="l_gripper">
+		<material>Gazebo/Red</material>
+		<turnGravityOff>false</turnGravityOff>
+		<mu1>0.5</mu1>
+		<mu2>0.5</mu2>
+		<selfCollide>false</selfCollide>
+	</gazebo>
+	<gazebo reference="r_sole">
+		<material>Gazebo/Orange</material>
+		<turnGravityOff>false</turnGravityOff>
+		<mu1>0.5</mu1>
+		<mu2>0.5</mu2>
+		<selfCollide>false</selfCollide>
+	</gazebo>
+	<gazebo reference="RFeet">
+		<material>Gazebo/Blue</material>
+		<turnGravityOff>false</turnGravityOff>
+		<mu1>0.5</mu1>
+		<mu2>0.5</mu2>
+		<selfCollide>false</selfCollide>
+	</gazebo>
+	<gazebo reference="Head">
+		<material>Gazebo/White</material>
+		<turnGravityOff>false</turnGravityOff>
+		<mu1>0.5</mu1>
+		<mu2>0.5</mu2>
+		<selfCollide>false</selfCollide>
+	</gazebo>
+	<gazebo reference="RThigh">
+		<material>Gazebo/Blue</material>
+		<turnGravityOff>false</turnGravityOff>
+		<mu1>0.5</mu1>
+		<mu2>0.5</mu2>
+		<selfCollide>false</selfCollide>
+	</gazebo>
+	<gazebo reference="r_ankle">
+		<material>Gazebo/Blue</material>
+		<turnGravityOff>false</turnGravityOff>
+		<mu1>0.5</mu1>
+		<mu2>0.5</mu2>
+		<selfCollide>false</selfCollide>
+	</gazebo>
+	<gazebo reference="base_link">
+		<material>Gazebo/White</material>
+		<turnGravityOff>false</turnGravityOff>
+		<mu1>0.5</mu1>
+		<mu2>0.5</mu2>
+		<selfCollide>false</selfCollide>
+	</gazebo>
+	<gazebo reference="LTibia">
+		<material>Gazebo/Red</material>
+		<turnGravityOff>false</turnGravityOff>
+		<mu1>0.5</mu1>
+		<mu2>0.5</mu2>
+		<selfCollide>false</selfCollide>
+	</gazebo>
+	<gazebo reference="r_wrist">
+		<material>Gazebo/Blue</material>
+		<turnGravityOff>false</turnGravityOff>
+		<mu1>0.5</mu1>
+		<mu2>0.5</mu2>
+		<selfCollide>false</selfCollide>
+	</gazebo>
+	<gazebo reference="gaze">
+		<material>Gazebo/White</material>
+		<turnGravityOff>false</turnGravityOff>
+		<mu1>0.5</mu1>
+		<mu2>0.5</mu2>
+		<selfCollide>false</selfCollide>
+	</gazebo>
+	<gazebo reference="LElbow">
+		<material>Gazebo/Red</material>
+		<turnGravityOff>false</turnGravityOff>
+		<mu1>0.5</mu1>
+		<mu2>0.5</mu2>
+		<selfCollide>false</selfCollide>
+	</gazebo>
+	<gazebo reference="RElbow">
+		<material>Gazebo/Blue</material>
+		<turnGravityOff>false</turnGravityOff>
+		<mu1>0.5</mu1>
+		<mu2>0.5</mu2>
+		<selfCollide>false</selfCollide>
+	</gazebo>
+	<gazebo reference="l_ankle">
+		<material>Gazebo/Red</material>
+		<turnGravityOff>false</turnGravityOff>
+		<mu1>0.5</mu1>
+		<mu2>0.5</mu2>
+		<selfCollide>false</selfCollide>
+	</gazebo>
+	<gazebo reference="Neck">
+		<material>Gazebo/White</material>
+		<turnGravityOff>false</turnGravityOff>
+		<mu1>0.5</mu1>
+		<mu2>0.5</mu2>
+		<selfCollide>false</selfCollide>
+	</gazebo>
+	<gazebo reference="l_sole">
+		<material>Gazebo/Orange</material>
+		<turnGravityOff>false</turnGravityOff>
+		<mu1>0.5</mu1>
+		<mu2>0.5</mu2>
+		<selfCollide>false</selfCollide>
+	</gazebo>
+	<gazebo reference="LForeArm">
+		<material>Gazebo/Red</material>
+		<turnGravityOff>false</turnGravityOff>
+		<mu1>0.5</mu1>
+		<mu2>0.5</mu2>
+		<selfCollide>false</selfCollide>
+	</gazebo>
+	<gazebo reference="RHip">
+		<material>Gazebo/Blue</material>
+		<turnGravityOff>false</turnGravityOff>
+		<mu1>0.5</mu1>
+		<mu2>0.5</mu2>
+		<selfCollide>false</selfCollide>
+	</gazebo>
+	<gazebo reference="RForeArm">
+		<material>Gazebo/Blue</material>
+		<turnGravityOff>false</turnGravityOff>
+		<mu1>0.5</mu1>
+		<mu2>0.5</mu2>
+		<selfCollide>false</selfCollide>
+	</gazebo>
+	<gazebo reference="r_gripper">
+		<material>Gazebo/Blue</material>
+		<turnGravityOff>false</turnGravityOff>
+		<mu1>0.5</mu1>
+		<mu2>0.5</mu2>
+		<selfCollide>false</selfCollide>
+	</gazebo>
+	<gazebo reference="LBicep">
+		<material>Gazebo/Red</material>
+		<turnGravityOff>false</turnGravityOff>
+		<mu1>0.5</mu1>
+		<mu2>0.5</mu2>
+		<selfCollide>false</selfCollide>
+	</gazebo>
+	<gazebo reference="RPelvis">
+		<material>Gazebo/Blue</material>
+		<turnGravityOff>false</turnGravityOff>
+		<mu1>0.5</mu1>
+		<mu2>0.5</mu2>
+		<selfCollide>false</selfCollide>
+	</gazebo>
+	<gazebo reference="LShoulder">
+		<material>Gazebo/Red</material>
+		<turnGravityOff>false</turnGravityOff>
+		<mu1>0.5</mu1>
+		<mu2>0.5</mu2>
+		<selfCollide>false</selfCollide>
+	</gazebo>
+	<gazebo reference="RTibia">
+		<material>Gazebo/Blue</material>
+		<turnGravityOff>false</turnGravityOff>
+		<mu1>0.5</mu1>
+		<mu2>0.5</mu2>
+		<selfCollide>false</selfCollide>
+	</gazebo>
+	<gazebo reference="RShoulder">
+		<material>Gazebo/Blue</material>
+		<turnGravityOff>false</turnGravityOff>
+		<mu1>0.5</mu1>
+		<mu2>0.5</mu2>
+		<selfCollide>false</selfCollide>
+	</gazebo>
+	<gazebo reference="LHip">
+		<material>Gazebo/Red</material>
+		<turnGravityOff>false</turnGravityOff>
+		<mu1>0.5</mu1>
+		<mu2>0.5</mu2>
+		<selfCollide>false</selfCollide>
+	</gazebo>
+	<gazebo reference="LPelvis">
+		<material>Gazebo/Red</material>
+		<turnGravityOff>false</turnGravityOff>
+		<mu1>0.5</mu1>
+		<mu2>0.5</mu2>
+		<selfCollide>false</selfCollide>
+	</gazebo>
+	<gazebo reference="LFeet">
+		<material>Gazebo/Red</material>
+		<turnGravityOff>false</turnGravityOff>
+		<mu1>0.5</mu1>
+		<mu2>0.5</mu2>
+		<selfCollide>false</selfCollide>
+	</gazebo>
+	<gazebo reference="torso">
+		<material>Gazebo/White</material>
+		<turnGravityOff>false</turnGravityOff>
+		<mu1>0.5</mu1>
+		<mu2>0.5</mu2>
+		<selfCollide>false</selfCollide>
+	</gazebo>
+</robot>

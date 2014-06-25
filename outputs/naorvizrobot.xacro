@@ -1,0 +1,9 @@
+<?xml version="1.0" ?>
+<robot name="naoH25V40" xmlns:xacro="http://www.ros.org/wiki/xacro">
+	<xacro:include filename="/tmp/naorvizhead.xacro"/>
+	<xacro:include filename="/tmp/naorvizlegs.xacro"/>
+	<xacro:include filename="/tmp/naorviztorso.xacro"/>
+	<xacro:include filename="/tmp/naorvizarms.xacro"/>
+	<xacro:include filename="/tmp/naorvizTransmission.xacro"/>
+	<xacro:include filename="/tmp/naorvizGazebo.xacro"/>
+</robot>
