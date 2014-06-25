@@ -30,7 +30,7 @@ Changes
 
 TODO
 ======
-- find a way to simulate nao in Gazebo (for now it is falling through the ground)
+- add transmission to urdf + ros_controller to perform real simulation 
 - get finger Frames and SensorFrames from aldebaran documentation
 - fix joints:
     - get L/RHand from documentation : limits
