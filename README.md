@@ -17,14 +17,16 @@ xml.dom
 argparse
 subprocess
 the library provided in this package
+nao_meshes package if you want the official Aldebaran meshes
 
 Changes
 =======
-
+06/25/2014
 - add transmission and gazebo tags to the parser library
 - add methods to library : add_material, add_gazebo
 - export xacro files using kinematics chains
 - fix scale of meshes in the output files
+- New impu parameter : --meshes
 
 TODO
 ======
@@ -34,3 +36,11 @@ TODO
     - get L/RHand from documentation : limits
     - mimic joints for pelvis and fingers
 - add sensor plugins for gazebo tags
+- improve exportXacroRobotChain function
+
+Missing Resources
+=================
+- Finger and toes frames from Aldebaran doc
+- Transmission elements
+- Missing mimic joints (we can add them by hand for know)
+
