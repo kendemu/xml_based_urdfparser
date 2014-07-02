@@ -1,5 +1,17 @@
 <?xml version="1.0" ?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+	<gazebo>
+		<plugin filename="libgazebo_ros_control.so" name="gazebo_ros_control">
+			<robotNamespace>/nao_dcm</robotNamespace>
+			<robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType>
+		</plugin>
+		<plugin filename="libroboticsgroup_gazebo_mimic_joint_plugin.so" name="mimic_hipyawpitch">
+			<joint>LHipYawPitch</joint>
+			<mimicjoint>RHipYawPitch</mimicjoint>
+			<multiplier>1.0</multiplier>
+			<offset>0.0</offset>
+		</plugin>
+	</gazebo>
 	<gazebo reference="LThigh">
 		<material>Gazebo/White</material>
 		<turnGravityOff>false</turnGravityOff>

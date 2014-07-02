@@ -10,12 +10,12 @@
 	<link name="LShoulder">
 		<visual>
 			<geometry>
-				<mesh filename="file:///home/marguedas/.ros/nao_meshes/meshes/V40/visual/collada/LShoulder.dae" scale="0.1 0.1 0.1"/>
+				<mesh filename="package://nao_meshes/meshes/V40/visual/collada/LShoulder.dae" scale="0.1 0.1 0.1"/>
 			</geometry>
 		</visual>
 		<collision>
 			<geometry>
-				<mesh filename="file:///home/marguedas/.ros/nao_meshes/meshes/V40/visual/collada/LShoulder.dae" scale="0.1 0.1 0.1"/>
+				<mesh filename="package://nao_meshes/meshes/V40/visual/collada/LShoulder.dae" scale="0.1 0.1 0.1"/>
 			</geometry>
 		</collision>
 		<inertial>
@@ -34,12 +34,12 @@
 	<link name="LBicep">
 		<visual>
 			<geometry>
-				<mesh filename="file:///home/marguedas/.ros/nao_meshes/meshes/V40/visual/collada/LBicep.dae" scale="0.1 0.1 0.1"/>
+				<mesh filename="package://nao_meshes/meshes/V40/visual/collada/LBicep.dae" scale="0.1 0.1 0.1"/>
 			</geometry>
 		</visual>
 		<collision>
 			<geometry>
-				<mesh filename="file:///home/marguedas/.ros/nao_meshes/meshes/V40/visual/collada/LBicep.dae" scale="0.1 0.1 0.1"/>
+				<mesh filename="package://nao_meshes/meshes/V40/visual/collada/LBicep.dae" scale="0.1 0.1 0.1"/>
 			</geometry>
 		</collision>
 		<inertial>
@@ -72,12 +72,12 @@
 	<link name="LForeArm">
 		<visual>
 			<geometry>
-				<mesh filename="file:///home/marguedas/.ros/nao_meshes/meshes/V40/visual/collada/LForeArm.dae" scale="0.1 0.1 0.1"/>
+				<mesh filename="package://nao_meshes/meshes/V40/visual/collada/LForeArm.dae" scale="0.1 0.1 0.1"/>
 			</geometry>
 		</visual>
 		<collision>
 			<geometry>
-				<mesh filename="file:///home/marguedas/.ros/nao_meshes/meshes/V40/visual/collada/LForeArm.dae" scale="0.1 0.1 0.1"/>
+				<mesh filename="package://nao_meshes/meshes/V40/visual/collada/LForeArm.dae" scale="0.1 0.1 0.1"/>
 			</geometry>
 		</collision>
 		<inertial>
@@ -96,12 +96,12 @@
 	<link name="l_wrist">
 		<visual>
 			<geometry>
-				<mesh filename="file:///home/marguedas/.ros/nao_meshes/meshes/V40/visual/collada/l_wrist.dae" scale="0.1 0.1 0.1"/>
+				<mesh filename="package://nao_meshes/meshes/V40/visual/collada/l_wrist.dae" scale="0.1 0.1 0.1"/>
 			</geometry>
 		</visual>
 		<collision>
 			<geometry>
-				<mesh filename="file:///home/marguedas/.ros/nao_meshes/meshes/V40/visual/collada/l_wrist.dae" scale="0.1 0.1 0.1"/>
+				<mesh filename="package://nao_meshes/meshes/V40/visual/collada/l_wrist.dae" scale="0.1 0.1 0.1"/>
 			</geometry>
 		</collision>
 		<inertial>
@@ -118,12 +118,12 @@
 	<link name="l_gripper">
 		<visual>
 			<geometry>
-				<mesh filename="file:///home/marguedas/.ros/nao_meshes/meshes/V40/visual/collada/l_gripper.dae" scale="0.1 0.1 0.1"/>
+				<mesh filename="package://nao_meshes/meshes/V40/visual/collada/l_gripper.dae" scale="0.1 0.1 0.1"/>
 			</geometry>
 		</visual>
 		<collision>
 			<geometry>
-				<mesh filename="file:///home/marguedas/.ros/nao_meshes/meshes/V40/visual/collada/l_gripper.dae" scale="0.1 0.1 0.1"/>
+				<mesh filename="package://nao_meshes/meshes/V40/visual/collada/l_gripper.dae" scale="0.1 0.1 0.1"/>
 			</geometry>
 		</collision>
 	</link>
@@ -137,12 +137,12 @@
 	<link name="RShoulder">
 		<visual>
 			<geometry>
-				<mesh filename="file:///home/marguedas/.ros/nao_meshes/meshes/V40/visual/collada/RShoulder.dae" scale="0.1 0.1 0.1"/>
+				<mesh filename="package://nao_meshes/meshes/V40/visual/collada/RShoulder.dae" scale="0.1 0.1 0.1"/>
 			</geometry>
 		</visual>
 		<collision>
 			<geometry>
-				<mesh filename="file:///home/marguedas/.ros/nao_meshes/meshes/V40/visual/collada/RShoulder.dae" scale="0.1 0.1 0.1"/>
+				<mesh filename="package://nao_meshes/meshes/V40/visual/collada/RShoulder.dae" scale="0.1 0.1 0.1"/>
 			</geometry>
 		</collision>
 		<inertial>
@@ -161,12 +161,12 @@
 	<link name="RBicep">
 		<visual>
 			<geometry>
-				<mesh filename="file:///home/marguedas/.ros/nao_meshes/meshes/V40/visual/collada/RBicep.dae" scale="0.1 0.1 0.1"/>
+				<mesh filename="package://nao_meshes/meshes/V40/visual/collada/RBicep.dae" scale="0.1 0.1 0.1"/>
 			</geometry>
 		</visual>
 		<collision>
 			<geometry>
-				<mesh filename="file:///home/marguedas/.ros/nao_meshes/meshes/V40/visual/collada/RBicep.dae" scale="0.1 0.1 0.1"/>
+				<mesh filename="package://nao_meshes/meshes/V40/visual/collada/RBicep.dae" scale="0.1 0.1 0.1"/>
 			</geometry>
 		</collision>
 		<inertial>
@@ -199,12 +199,12 @@
 	<link name="RForeArm">
 		<visual>
 			<geometry>
-				<mesh filename="file:///home/marguedas/.ros/nao_meshes/meshes/V40/visual/collada/RForeArm.dae" scale="0.1 0.1 0.1"/>
+				<mesh filename="package://nao_meshes/meshes/V40/visual/collada/RForeArm.dae" scale="0.1 0.1 0.1"/>
 			</geometry>
 		</visual>
 		<collision>
 			<geometry>
-				<mesh filename="file:///home/marguedas/.ros/nao_meshes/meshes/V40/visual/collada/RForeArm.dae" scale="0.1 0.1 0.1"/>
+				<mesh filename="package://nao_meshes/meshes/V40/visual/collada/RForeArm.dae" scale="0.1 0.1 0.1"/>
 			</geometry>
 		</collision>
 		<inertial>
@@ -223,12 +223,12 @@
 	<link name="r_wrist">
 		<visual>
 			<geometry>
-				<mesh filename="file:///home/marguedas/.ros/nao_meshes/meshes/V40/visual/collada/r_wrist.dae" scale="0.1 0.1 0.1"/>
+				<mesh filename="package://nao_meshes/meshes/V40/visual/collada/r_wrist.dae" scale="0.1 0.1 0.1"/>
 			</geometry>
 		</visual>
 		<collision>
 			<geometry>
-				<mesh filename="file:///home/marguedas/.ros/nao_meshes/meshes/V40/visual/collada/r_wrist.dae" scale="0.1 0.1 0.1"/>
+				<mesh filename="package://nao_meshes/meshes/V40/visual/collada/r_wrist.dae" scale="0.1 0.1 0.1"/>
 			</geometry>
 		</collision>
 		<inertial>
@@ -245,12 +245,12 @@
 	<link name="r_gripper">
 		<visual>
 			<geometry>
-				<mesh filename="file:///home/marguedas/.ros/nao_meshes/meshes/V40/visual/collada/r_gripper.dae" scale="0.1 0.1 0.1"/>
+				<mesh filename="package://nao_meshes/meshes/V40/visual/collada/r_gripper.dae" scale="0.1 0.1 0.1"/>
 			</geometry>
 		</visual>
 		<collision>
 			<geometry>
-				<mesh filename="file:///home/marguedas/.ros/nao_meshes/meshes/V40/visual/collada/r_gripper.dae" scale="0.1 0.1 0.1"/>
+				<mesh filename="package://nao_meshes/meshes/V40/visual/collada/r_gripper.dae" scale="0.1 0.1 0.1"/>
 			</geometry>
 		</collision>
 	</link>

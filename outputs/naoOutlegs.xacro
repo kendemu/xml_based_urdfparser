@@ -10,12 +10,12 @@
 	<link name="LPelvis">
 		<visual>
 			<geometry>
-				<mesh filename="file:///home/marguedas/.ros/nao_meshes/meshes/V40/visual/LPelvis.obj" scale="0.001 0.001 0.001"/>
+				<mesh filename="package://nao_meshes/meshes/V40/visual/collada/LPelvis.dae" scale="0.1 0.1 0.1"/>
 			</geometry>
 		</visual>
 		<collision>
 			<geometry>
-				<mesh filename="file:///home/marguedas/.ros/nao_meshes/meshes/V40/collision/LPelvis.ply" scale="0.001 0.001 0.001"/>
+				<mesh filename="package://nao_meshes/meshes/V40/visual/collada/LPelvis.dae" scale="0.1 0.1 0.1"/>
 			</geometry>
 		</collision>
 		<inertial>
@@ -34,12 +34,12 @@
 	<link name="LHip">
 		<visual>
 			<geometry>
-				<mesh filename="file:///home/marguedas/.ros/nao_meshes/meshes/V40/visual/LHip.obj" scale="0.001 0.001 0.001"/>
+				<mesh filename="package://nao_meshes/meshes/V40/visual/collada/LHip.dae" scale="0.1 0.1 0.1"/>
 			</geometry>
 		</visual>
 		<collision>
 			<geometry>
-				<mesh filename="file:///home/marguedas/.ros/nao_meshes/meshes/V40/collision/LHip.ply" scale="0.001 0.001 0.001"/>
+				<mesh filename="package://nao_meshes/meshes/V40/visual/collada/LHip.dae" scale="0.1 0.1 0.1"/>
 			</geometry>
 		</collision>
 		<inertial>
@@ -58,12 +58,12 @@
 	<link name="LThigh">
 		<visual>
 			<geometry>
-				<mesh filename="file:///home/marguedas/.ros/nao_meshes/meshes/V40/visual/LThigh.obj" scale="0.001 0.001 0.001"/>
+				<mesh filename="package://nao_meshes/meshes/V40/visual/collada/LThigh.dae" scale="0.1 0.1 0.1"/>
 			</geometry>
 		</visual>
 		<collision>
 			<geometry>
-				<mesh filename="file:///home/marguedas/.ros/nao_meshes/meshes/V40/collision/LThigh.ply" scale="0.001 0.001 0.001"/>
+				<mesh filename="package://nao_meshes/meshes/V40/visual/collada/LThigh.dae" scale="0.1 0.1 0.1"/>
 			</geometry>
 		</collision>
 		<inertial>
@@ -82,12 +82,12 @@
 	<link name="LTibia">
 		<visual>
 			<geometry>
-				<mesh filename="file:///home/marguedas/.ros/nao_meshes/meshes/V40/visual/LTibia.obj" scale="0.001 0.001 0.001"/>
+				<mesh filename="package://nao_meshes/meshes/V40/visual/collada/LTibia.dae" scale="0.1 0.1 0.1"/>
 			</geometry>
 		</visual>
 		<collision>
 			<geometry>
-				<mesh filename="file:///home/marguedas/.ros/nao_meshes/meshes/V40/collision/LTibia.ply" scale="0.001 0.001 0.001"/>
+				<mesh filename="package://nao_meshes/meshes/V40/visual/collada/LTibia.dae" scale="0.1 0.1 0.1"/>
 			</geometry>
 		</collision>
 		<inertial>
@@ -106,12 +106,12 @@
 	<link name="l_ankle">
 		<visual>
 			<geometry>
-				<mesh filename="file:///home/marguedas/.ros/nao_meshes/meshes/V40/visual/l_ankle.obj" scale="0.001 0.001 0.001"/>
+				<mesh filename="package://nao_meshes/meshes/V40/visual/collada/l_ankle.dae" scale="0.1 0.1 0.1"/>
 			</geometry>
 		</visual>
 		<collision>
 			<geometry>
-				<mesh filename="file:///home/marguedas/.ros/nao_meshes/meshes/V40/collision/l_ankle.ply" scale="0.001 0.001 0.001"/>
+				<mesh filename="package://nao_meshes/meshes/V40/visual/collada/l_ankle.dae" scale="0.1 0.1 0.1"/>
 			</geometry>
 		</collision>
 		<inertial>
@@ -128,6 +128,16 @@
 		<limit effort="3.2" lower="-0.397761" upper="0.768992" velocity="4.16174"/>
 	</joint>
 	<link name="LFeet">
+		<visual>
+			<geometry>
+				<mesh filename="package://nao_meshes/meshes/V40/visual/collada/LFeet.dae" scale="0.1 0.1 0.1"/>
+			</geometry>
+		</visual>
+		<collision>
+			<geometry>
+				<mesh filename="package://nao_meshes/meshes/V40/visual/collada/LFeet.dae" scale="0.1 0.1 0.1"/>
+			</geometry>
+		</collision>
 		<inertial>
 			<mass value="0.16184"/>
 			<inertia ixx="0.000269442" ixy="-5.69572e-06" ixz="0.000139379" iyy="0.000644343" iyz="1.87409e-05" izz="0.000525757"/>
@@ -144,12 +154,12 @@
 	<link name="RPelvis">
 		<visual>
 			<geometry>
-				<mesh filename="file:///home/marguedas/.ros/nao_meshes/meshes/V40/visual/RPelvis.obj" scale="0.001 0.001 0.001"/>
+				<mesh filename="package://nao_meshes/meshes/V40/visual/collada/RPelvis.dae" scale="0.1 0.1 0.1"/>
 			</geometry>
 		</visual>
 		<collision>
 			<geometry>
-				<mesh filename="file:///home/marguedas/.ros/nao_meshes/meshes/V40/collision/RPelvis.ply" scale="0.001 0.001 0.001"/>
+				<mesh filename="package://nao_meshes/meshes/V40/visual/collada/RPelvis.dae" scale="0.1 0.1 0.1"/>
 			</geometry>
 		</collision>
 		<inertial>
@@ -168,12 +178,12 @@
 	<link name="RHip">
 		<visual>
 			<geometry>
-				<mesh filename="file:///home/marguedas/.ros/nao_meshes/meshes/V40/visual/RHip.obj" scale="0.001 0.001 0.001"/>
+				<mesh filename="package://nao_meshes/meshes/V40/visual/collada/RHip.dae" scale="0.1 0.1 0.1"/>
 			</geometry>
 		</visual>
 		<collision>
 			<geometry>
-				<mesh filename="file:///home/marguedas/.ros/nao_meshes/meshes/V40/collision/RHip.ply" scale="0.001 0.001 0.001"/>
+				<mesh filename="package://nao_meshes/meshes/V40/visual/collada/RHip.dae" scale="0.1 0.1 0.1"/>
 			</geometry>
 		</collision>
 		<inertial>
@@ -192,12 +202,12 @@
 	<link name="RThigh">
 		<visual>
 			<geometry>
-				<mesh filename="file:///home/marguedas/.ros/nao_meshes/meshes/V40/visual/RThigh.obj" scale="0.001 0.001 0.001"/>
+				<mesh filename="package://nao_meshes/meshes/V40/visual/collada/RThigh.dae" scale="0.1 0.1 0.1"/>
 			</geometry>
 		</visual>
 		<collision>
 			<geometry>
-				<mesh filename="file:///home/marguedas/.ros/nao_meshes/meshes/V40/collision/RThigh.ply" scale="0.001 0.001 0.001"/>
+				<mesh filename="package://nao_meshes/meshes/V40/visual/collada/RThigh.dae" scale="0.1 0.1 0.1"/>
 			</geometry>
 		</collision>
 		<inertial>
@@ -216,12 +226,12 @@
 	<link name="RTibia">
 		<visual>
 			<geometry>
-				<mesh filename="file:///home/marguedas/.ros/nao_meshes/meshes/V40/visual/RTibia.obj" scale="0.001 0.001 0.001"/>
+				<mesh filename="package://nao_meshes/meshes/V40/visual/collada/RTibia.dae" scale="0.1 0.1 0.1"/>
 			</geometry>
 		</visual>
 		<collision>
 			<geometry>
-				<mesh filename="file:///home/marguedas/.ros/nao_meshes/meshes/V40/collision/RTibia.ply" scale="0.001 0.001 0.001"/>
+				<mesh filename="package://nao_meshes/meshes/V40/visual/collada/RTibia.dae" scale="0.1 0.1 0.1"/>
 			</geometry>
 		</collision>
 		<inertial>
@@ -240,12 +250,12 @@
 	<link name="r_ankle">
 		<visual>
 			<geometry>
-				<mesh filename="file:///home/marguedas/.ros/nao_meshes/meshes/V40/visual/r_ankle.obj" scale="0.001 0.001 0.001"/>
+				<mesh filename="package://nao_meshes/meshes/V40/visual/collada/r_ankle.dae" scale="0.1 0.1 0.1"/>
 			</geometry>
 		</visual>
 		<collision>
 			<geometry>
-				<mesh filename="file:///home/marguedas/.ros/nao_meshes/meshes/V40/collision/r_ankle.ply" scale="0.001 0.001 0.001"/>
+				<mesh filename="package://nao_meshes/meshes/V40/visual/collada/r_ankle.dae" scale="0.1 0.1 0.1"/>
 			</geometry>
 		</collision>
 		<inertial>
@@ -262,6 +272,16 @@
 		<limit effort="3.2" lower="-0.768992" upper="0.397935" velocity="4.16174"/>
 	</joint>
 	<link name="RFeet">
+		<visual>
+			<geometry>
+				<mesh filename="package://nao_meshes/meshes/V40/visual/collada/RFeet.dae" scale="0.1 0.1 0.1"/>
+			</geometry>
+		</visual>
+		<collision>
+			<geometry>
+				<mesh filename="package://nao_meshes/meshes/V40/visual/collada/RFeet.dae" scale="0.1 0.1 0.1"/>
+			</geometry>
+		</collision>
 		<inertial>
 			<mass value="0.16184"/>
 			<inertia ixx="0.000269302" ixy="5.87505e-06" ixz="0.000139133" iyy="0.000643474" iyz="-1.88492e-05" izz="0.000525035"/>

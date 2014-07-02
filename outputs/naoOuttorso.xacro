@@ -9,12 +9,12 @@
 	<link name="torso">
 		<visual>
 			<geometry>
-				<mesh filename="file:///home/marguedas/.ros/nao_meshes/meshes/V40/visual/collada/torso.dae" scale="0.1 0.1 0.1"/>
+				<mesh filename="package://nao_meshes/meshes/V40/visual/collada/torso.dae" scale="0.1 0.1 0.1"/>
 			</geometry>
 		</visual>
 		<collision>
 			<geometry>
-				<mesh filename="file:///home/marguedas/.ros/nao_meshes/meshes/V40/visual/collada/torso.dae" scale="0.1 0.1 0.1"/>
+				<mesh filename="package://nao_meshes/meshes/V40/visual/collada/torso.dae" scale="0.1 0.1 0.1"/>
 			</geometry>
 		</collision>
 		<inertial>

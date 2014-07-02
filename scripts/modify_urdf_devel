@@ -25,6 +25,7 @@
 import sys
 import argparse
 from urdf_parser_py.urdf import URDF
+import urdf_parser_py.gazeboUrdf
 import urdf_parser_py.urdf as ur
 import subprocess
 import os
@@ -192,17 +193,22 @@ def REP120func(robot):
     for link in robot.links.keys():   
         try:
             if link.find('sole') != -1:
-                robot.add_gazebo(ur.Gazebo(robot.links[link].name,"Gazebo/Orange","false",None,None,None,0.5,0.5,None,None,None,"false"))
+                robot.add_gazebo(ur.Gazebo(robot.links[link].name,"Gazebo/White","false",None,None,None,0.5,0.5,None,None,None,"false"))
             else:
                 if link.startswith('L') or link.startswith('l'):
-                    robot.add_gazebo(ur.Gazebo(robot.links[link].name,"Gazebo/Red","false",None,None,None,0.5,0.5,None,None,None,"false"))
+                    robot.add_gazebo(ur.Gazebo(robot.links[link].name,"Gazebo/White","false",None,None,None,0.5,0.5,None,None,None,"false"))
                 elif link.startswith('R') or link.startswith('r'):
-                    robot.add_gazebo(ur.Gazebo(robot.links[link].name,"Gazebo/Blue","false",None,None,None,0.5,0.5,None,None,None,"false"))
+                    robot.add_gazebo(ur.Gazebo(robot.links[link].name,"Gazebo/White","false",None,None,None,0.5,0.5,None,None,None,"false"))
                 else:
                     robot.add_gazebo(ur.Gazebo(robot.links[link].name,"Gazebo/White","false",None,None,None,0.5,0.5,None,None,None,"false"))
                  
         except KeyError:
             pass
+#libroboticsgroup_gazebo_mimic_joint_plugin.so
+#    for joint in robot.joints:
+#        if joint.mimic!=None:
+#            robot.add_gazebo(ur.Gazebo(None,None,None,None,None,None,None,None,None,None,None,None,None,None,[ur.MimicJointPlugin(str(joint.name) + '_mimic','libroboticsgroup_gazebo_mimic_joint_plugin.so',joint.name,,1,None )))
+
 
     if name == 'nao':
         print 'adding nao missing joints and links'
@@ -233,7 +239,11 @@ ur.Pose((Nao_offsets['CameraBottomOffsetX'],0,Nao_offsets['CameraBottomOffsetZ']
         robot.add_joint(ur.Joint('gaze_joint', 'CameraTop_frame',
 'gaze', 'fixed', None, ur.Pose((0,0,0),(0,0,0))))
 
-        
+
+
+##################
+##### Meshes #####
+##################
 
 def displayVisuals(robot):
     global name
@@ -248,7 +258,14 @@ def displayVisuals(robot):
                     robot.links[link].visual.material = ur.Material('LightGrey')
                 except:
                     robot.links[link].visual = None
-
+                try:
+                    if robot.links[link].collision == None:
+                        robot.links[link].collision = ur.Collision() 
+                    robot.links[link].collision.geometry = Nao_visu[robot.links[link].name]
+                    robot.links[link].collision.origin = Nao_orig[robot.links[link].name]
+                    robot.links[link].collision.material = ur.Material('LightGrey')
+                except:
+                    robot.links[link].collision = None
 
 def MeshesRes(robot,meshes):
     global version
@@ -256,7 +273,6 @@ def MeshesRes(robot,meshes):
     global args
     a=''
     cmd = 'rospack find '+str(name)+'_meshes'
-    #cmd = 'rospack find '+str(name)+'_description'
     mesh_installed = 0
     try:
         pathmeshes = subprocess.check_output(cmd, 
@@ -281,13 +297,12 @@ def MeshesRes(robot,meshes):
                             if file.startswith(robot.links[link].name[:-4]) and not file.endswith('.mtl'):
                                 robot.links[link].visual = None
                                 if args.meshes=='mesh':
+
                                     robot.links[link].visual = ur.Visual(ur.Mesh('',(0.001,0.001,0.001)))
-                                    robot.links[link].visual.geometry.filename =  'file://' + pathmeshes\
-                                    + '/meshes/' + str(version) + '/visual/' + file
+                                    robot.links[link].visual.geometry.filename =  'package://nao_meshes/meshes/' + str(version) + '/visual/' + file
                                 else:
                                     robot.links[link].visual = ur.Visual(ur.Mesh('',(0.1,0.1,0.1)))
-                                    robot.links[link].visual.geometry.filename =  'file://' + pathmeshes\
-                                    + '/meshes/' + str(version) + '/visual/collada/' + file
+                                    robot.links[link].visual.geometry.filename =  'package://nao_meshes/meshes/' + str(version) + '/visual/collada/' + file
                                 found = True   
                                 break
                         else:
@@ -295,12 +310,10 @@ def MeshesRes(robot,meshes):
                                 robot.links[link].visual = None
                                 if args.meshes=='mesh':
                                     robot.links[link].visual = ur.Visual(ur.Mesh('',(0.001,0.001,0.001)))
-                                    robot.links[link].visual.geometry.filename =  'file://' + pathmeshes\
-                                    + '/meshes/' + str(version) + '/visual/' + file
+                                    robot.links[link].visual.geometry.filename =  'package://nao_meshes/meshes/' + str(version) + '/visual/' + file
                                 else:
                                     robot.links[link].visual = ur.Visual(ur.Mesh('',(0.1,0.1,0.1)))
-                                    robot.links[link].visual.geometry.filename =  'file://' + pathmeshes\
-                                    + '/meshes/' + str(version) + '/visual/collada/' + file
+                                    robot.links[link].visual.geometry.filename =  'package://nao_meshes/meshes/' + str(version) + '/visual/collada/' + file
                                 found = True   
                                 break
                         if found == False:
@@ -337,13 +350,14 @@ def exportXacroRobotElementList(robot,element):
     for i in robot.elements:
         try:
             if element == 'Transmission':
-#            if isinstance(element, ur.Transmission): 
                 if i.name.find(element) != -1:
                     print i
                     root.appendChild(i.to_xml(doc))
             elif element == 'Gazebo':
-#            elif isinstance(element,ur.Gazebo):
+#                if i.reference != None:
                 if i.reference != None:
+                    root.appendChild(i.to_xml(doc))
+                elif i.plugins != []:
                     root.appendChild(i.to_xml(doc))
         except AttributeError:
             pass
@@ -352,7 +366,6 @@ def exportXacroRobotElementList(robot,element):
     print filename
     file = open(filename,'w') 
     file.write(doc.toprettyxml()) 
-
     
 
 def exportXacroRobot(robot):
@@ -362,7 +375,6 @@ def exportXacroRobot(robot):
     root.setAttribute("xmlns:xacro","http://www.ros.org/wiki/xacro")
     root.setAttribute("name",robot.name)
     for i in dictioNaoXacro.keys():
-        print i
         print "exporting " +str(dictioNaoXacro[i]) + ' xacro' 
         exportXacroRobotChain(robot,i)
         filenamerobot = args.output[0:args.output.find('.')]+ i + str('.xacro')
@@ -384,16 +396,30 @@ def exportXacroRobotChain(robot, keyword):
     root = doc.createElement("robot")
     doc.appendChild(root)
     root.setAttribute("xmlns:xacro","http://www.ros.org/wiki/xacro")
-    try:
-        robot.links['l_'+dictioNaoXacro[keyword]]
+    chainNb =0
+    try: 
         chain1 = robot.get_chain('base_link','l_'+dictioNaoXacro[keyword])
         chain2 = robot.get_chain('base_link','r_'+dictioNaoXacro[keyword])
+        chainNb=2
+    except KeyError:
+        try:
+            chain1 = robot.get_chain('base_link','L'+dictioNaoXacro[keyword])
+            chain2 = robot.get_chain('base_link','R'+dictioNaoXacro[keyword])
+            chainNb = 2
+        except KeyError:
+            try: 
+                chain1 = robot.get_chain('base_link',dictioNaoXacro[keyword])
+                chainNb = 1
+            except KeyError:
+                print 'the chain '+str(keyword) +' cannot be found'
+    
+    if chainNb != 0:
         duplicate = 0
         for i in range(len(chain1)):
             for j in range(len(chainRef)):
                 if chain1[i] == chainRef[j]:
                     duplicate =1
-            if duplicate == 0:
+            if duplicate == 0 or keyword == 'torso':
                 try:
                     root.appendChild(robot.links[chain1[i]].to_xml(doc))
                 except KeyError:
@@ -403,60 +429,7 @@ def exportXacroRobotChain(robot, keyword):
                         print 'unknown element' + str(chain1[i])        
             else:
                 duplicate =0
-        
-        for i in range(len(chain2)):
-            for j in range(len(chainRef)):
-                if chain2[i] == chainRef[j]:
-                    duplicate =1
-            if duplicate == 0:
-                try:
-                    root.appendChild(robot.links[chain2[i]].to_xml(doc))
-                except KeyError:
-                    try:
-                        root.appendChild(robot.joints[chain2[i]].to_xml(doc))
-                    except KeyError:
-                        print 'unknown element' + str(chain2[i])        
-            else:
-                duplicate =0
-
-    except KeyError:
-        try:
-            chain1 = robot.get_chain('base_link',dictioNaoXacro[keyword])
-        
-            print "not a symetrical link or joint"
-            for i in range(len(chain1)):
-                for j in range(len(chainRef)):
-                    if chain1[i] == chainRef[j]:
-                        duplicate =1
-                if duplicate == 0 or keyword == 'torso':
-                    try:
-                        root.appendChild(robot.links[chain1[i]].to_xml(doc))
-                    except KeyError:
-                        try:
-                            root.appendChild(robot.joints[chain1[i]].to_xml(doc))
-                        except KeyError:
-                            print 'unknown element' + str(chain1[i])        
-                else:
-                    duplicate =0
-        except KeyError:
-            chain1 = robot.get_chain('base_link','L'+dictioNaoXacro[keyword])
-            chain2 = robot.get_chain('base_link','R'+dictioNaoXacro[keyword])
-            duplicate = 0
-            for i in range(len(chain1)):
-                for j in range(len(chainRef)):
-                    if chain1[i] == chainRef[j]:
-                        duplicate =1
-                if duplicate == 0:
-                    try:
-                        root.appendChild(robot.links[chain1[i]].to_xml(doc))
-                    except KeyError:
-                        try:
-                            root.appendChild(robot.joints[chain1[i]].to_xml(doc))
-                        except KeyError:
-                            print 'unknown element' + str(chain1[i])        
-                else:
-                    duplicate =0
-        
+        if chainNb ==2:
             for i in range(len(chain2)):
                 for j in range(len(chainRef)):
                     if chain2[i] == chainRef[j]:
@@ -472,13 +445,10 @@ def exportXacroRobotChain(robot, keyword):
                 else:
                     duplicate =0
 
-
-
-    filenamearms = args.output[0:args.output.find('.')] + keyword + str('.xacro')
-    print filenamearms
-    filename = open(filenamearms,'w') 
-    filename.write(doc.toprettyxml()) 
-
+        filenamearms = args.output[0:args.output.find('.')] + keyword + str('.xacro')
+        print filenamearms
+        filename = open(filenamearms,'w') 
+        filename.write(doc.toprettyxml()) 
 
 ##############
 #### Main ####
@@ -509,14 +479,9 @@ if version != '':
     if args.REP120=='true':
         if(name != 'pepper'):
             REP120func(robot)
-    #if args.meshes!='cylinder':
     MeshesRes(robot,args.meshes)
     #if args.sensor == 'false':
     #    RemoveNoInertia(robot)
-    print robot.get_chain('base_link','l_ankle')
-    print robot.get_chain('base_link','LFeet')
-
-
     if args.xacro == 'robot':
         exportXacroRobot(robot)
     elif args.xacro == 'urdf':
